@@ -63,13 +63,12 @@
 <script>
 let rowIdx = 1;
 
-// Menambahkan produk baru
 document.getElementById('add-product').addEventListener('click', function () {
     const firstRow = document.querySelector('.product-row');
     const newRow = firstRow.cloneNode(true);
 
     newRow.querySelectorAll('input, select').forEach(input => {
-        input.name = input.name.replace(/\d+/, rowIdx);
+        input.name = input.name.replace(/\[\d+\]/, `[${rowIdx}]`);
         if (input.classList.contains('subtotal')) input.value = '';
         if (input.classList.contains('quantity')) input.value = 1;
         if (input.tagName === 'SELECT') input.selectedIndex = 0;
@@ -79,14 +78,12 @@ document.getElementById('add-product').addEventListener('click', function () {
     rowIdx++;
 });
 
-// Update subtotal & total ketika produk atau kuantitas berubah
 document.addEventListener('change', function (e) {
     if (e.target.classList.contains('product-select') || e.target.classList.contains('quantity')) {
         updateSubtotals();
     }
 });
 
-// Hapus baris produk
 document.addEventListener('click', function (e) {
     if (e.target.classList.contains('remove-row')) {
         const rows = document.querySelectorAll('.product-row');
@@ -97,7 +94,6 @@ document.addEventListener('click', function (e) {
     }
 });
 
-// Kalkulasi subtotal dan total
 function updateSubtotals() {
     let total = 0;
     document.querySelectorAll('.product-row').forEach(row => {
